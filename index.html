@@ -1,10 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Segma</title>
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#080808;color:#fff;font-family:Arial,sans-serif}
@@ -20,32 +24,38 @@ nav span{font-size:12px;color:#e8c45b}
 #loginStatus{color:#e8c45b;font-size:14px}
 </style>
 </head>
+
 <body>
 <header>
 <h1>SEGMA</h1>
 <p>MINE • HOLD • GROW</p>
 </header>
+
 <main>
 <div class="card">
 <h3 id="welcome">مرحباً بك في Segma</h3>
 <p id="loginStatus">جاري التحقق من اتصال تيليجرام...</p>
 </div>
+
 <div class="card">
 <p>رصيدك في Segma</p>
 <div class="balance">0 SG</div>
 <p>المستوى الحالي: 1</p>
 </div>
+
 <div class="card">
 <h3>التعدين اليومي</h3>
 <div class="balance">250 SG</div>
 <p>مدة جلسة التعدين: 24 ساعة</p>
 <button onclick="alert('سيتم تفعيل التعدين بعد تجهيز النظام')">ابدأ التعدين</button>
 </div>
+
 <div class="card">
 <h3>مرحباً بك في Segma</h3>
 <p>ابدأ رحلتك في عالم التعدين والمكافآت.</p>
 </div>
 </main>
+
 <nav>
 <span>الرئيسية</span>
 <span>المهام</span>
@@ -53,7 +63,18 @@ nav span{font-size:12px;color:#e8c45b}
 <span>المحفظة</span>
 <span>حسابي</span>
 </nav>
+
 <script>
+const SUPABASE_URL = "https://fcrdywtlezabcbthkmtb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_0Rb6-MTCoKuApgeKRro2ow_mv1MqplC";
+
+window.segmaDB = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+console.log("Segma database client initialized");
+
 const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
@@ -74,5 +95,6 @@ if (tg.initData) {
     "افتح التطبيق من بوت Segma";
 }
 </script>
+
 </body>
 </html>
