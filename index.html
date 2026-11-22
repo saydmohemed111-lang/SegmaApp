@@ -1,23 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Segma</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#080808;color:#fff;font-family:Arial,sans-serif}
 header{text-align:center;padding:28px 15px;color:#e8c45b}
 header h1{font-size:36px;margin:0}
 header p{color:#aaa}
-main{padding:15px;max-width:480px;margin:auto}
+main{padding:15px 15px 100px;max-width:480px;margin:auto}
 .card{background:#171717;border:1px solid #80652d;border-radius:16px;padding:22px;margin-bottom:16px;text-align:center}
 .balance{font-size:32px;color:#edca67;font-weight:bold;margin:12px}
 button{background:linear-gradient(90deg,#a77a25,#f1d47a);border:0;border-radius:12px;padding:14px 25px;font-weight:bold;font-size:16px;width:100%;color:#111}
 nav{position:fixed;bottom:0;left:0;right:0;background:#151515;display:flex;justify-content:space-around;padding:15px 3px;border-top:1px solid #80652d}
 nav span{font-size:12px;color:#e8c45b}
-main{padding-bottom:90px}
+#loginStatus{color:#e8c45b;font-size:14px}
 </style>
 </head>
 <body>
@@ -27,6 +27,10 @@ main{padding-bottom:90px}
 </header>
 <main>
 <div class="card">
+<h3 id="welcome">مرحباً بك في Segma</h3>
+<p id="loginStatus">جاري التحقق من اتصال تيليجرام...</p>
+</div>
+<div class="card">
 <p>رصيدك في Segma</p>
 <div class="balance">0 SG</div>
 <p>المستوى الحالي: 1</p>
@@ -35,7 +39,7 @@ main{padding-bottom:90px}
 <h3>التعدين اليومي</h3>
 <div class="balance">250 SG</div>
 <p>مدة جلسة التعدين: 24 ساعة</p>
-<button>ابدأ التعدين</button>
+<button onclick="alert('سيتم تفعيل التعدين بعد تجهيز النظام')">ابدأ التعدين</button>
 </div>
 <div class="card">
 <h3>مرحباً بك في Segma</h3>
@@ -49,5 +53,26 @@ main{padding-bottom:90px}
 <span>المحفظة</span>
 <span>حسابي</span>
 </nav>
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+if (tg.initData) {
+  const user = tg.initDataUnsafe.user;
+  if (user) {
+    document.getElementById("welcome").textContent =
+      "أهلاً " + (user.first_name || "بك");
+    document.getElementById("loginStatus").textContent =
+      "تم التعرف على حساب تيليجرام";
+  } else {
+    document.getElementById("loginStatus").textContent =
+      "تم فتح التطبيق من تيليجرام";
+  }
+} else {
+  document.getElementById("loginStatus").textContent =
+    "افتح التطبيق من بوت Segma";
+}
+</script>
 </body>
 </html>
