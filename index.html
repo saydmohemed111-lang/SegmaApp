@@ -2,90 +2,172 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Segma</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Segma - Mine • Hold • Grow</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#080808;color:#fff;font-family:Arial,sans-serif}
-header{text-align:center;padding:28px 15px;color:#e8c45b}
-header h1{font-size:36px;margin:0}
-header p{color:#aaa}
-main{padding:15px 15px 100px;max-width:480px;margin:auto}
-.card{background:#171717;border:1px solid #80652d;border-radius:16px;padding:22px;margin-bottom:16px;text-align:center}
-.balance{font-size:32px;color:#edca67;font-weight:bold;margin:12px}
-button{background:linear-gradient(90deg,#a77a25,#f1d47a);border:0;border-radius:12px;padding:14px 25px;font-weight:bold;font-size:16px;width:100%;color:#111}
-nav{position:fixed;bottom:0;left:0;right:0;background:#151515;display:flex;justify-content:space-around;padding:15px 3px;border-top:1px solid #80652d}
-nav span{font-size:12px;color:#e8c45b}
-#loginStatus{color:#e8c45b;font-size:14px}
-</style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #080808;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 25px 10px;
+    }
+
+    .logo {
+      color: #e8bd54;
+      font-size: 38px;
+      font-weight: bold;
+      letter-spacing: 5px;
+    }
+
+    .slogan {
+      color: #aaa;
+      font-size: 12px;
+      letter-spacing: 3px;
+      margin-top: 8px;
+    }
+
+    .card {
+      background: #151515;
+      border: 1px solid #55421e;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #e8bd54;
+      font-size: 21px;
+    }
+
+    .balance {
+      font-size: 34px;
+      color: #e8bd54;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .status {
+      color: #ccc;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    nav button {
+      background: #1c1c1c;
+      color: #e8bd54;
+      border: 1px solid #55421e;
+      border-radius: 10px;
+      padding: 13px 5px;
+      font-size: 13px;
+    }
+
+    .footer {
+      color: #777;
+      text-align: center;
+      font-size: 11px;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 
 <body>
-<header>
-<h1>SEGMA</h1>
-<p>MINE • HOLD • GROW</p>
-</header>
 
-<main>
-<div class="card">
-<h3 id="welcome">مرحباً بك في Segma</h3>
-<p id="loginStatus">جاري التحقق من اتصال تيليجرام...</p>
+<div class="container">
+
+  <header>
+    <div class="logo">SEGMA</div>
+    <div class="slogan">MINE • HOLD • GROW</div>
+  </header>
+
+  <div class="card">
+    <h2>مرحباً بك في Segma</h2>
+    <p id="welcome">أهلاً بك في عالم Segma</p>
+    <div class="balance">0 SG</div>
+    <div class="status" id="loginStatus">
+      جاري الاتصال...
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>التعدين</h2>
+    <p class="status">ابدأ رحلتك في تعدين عملة SG</p>
+    <div class="balance">250 SG</div>
+    <p class="status">مكافأة المستوى الأول لكل 24 ساعة</p>
+  </div>
+
+  <nav>
+    <button onclick="showMessage('الرئيسية')">الرئيسية</button>
+    <button onclick="showMessage('المهام')">المهام</button>
+    <button onclick="showMessage('الإحالات')">الإحالات</button>
+    <button onclick="showMessage('المحفظة')">المحفظة</button>
+    <button onclick="showMessage('حسابي')">حسابي</button>
+    <button onclick="showMessage('سجل النشاط')">سجل النشاط</button>
+  </nav>
+
+  <div class="footer">
+    SEGMA © 2026
+  </div>
+
 </div>
-
-<div class="card">
-<p>رصيدك في Segma</p>
-<div class="balance">0 SG</div>
-<p>المستوى الحالي: 1</p>
-</div>
-
-<div class="card">
-<h3>التعدين اليومي</h3>
-<div class="balance">250 SG</div>
-<p>مدة جلسة التعدين: 24 ساعة</p>
-<button onclick="alert('سيتم تفعيل التعدين بعد تجهيز النظام')">ابدأ التعدين</button>
-</div>
-
-<div class="card">
-<h3>مرحباً بك في Segma</h3>
-<p>ابدأ رحلتك في عالم التعدين والمكافآت.</p>
-</div>
-</main>
-
-<nav>
-<span>الرئيسية</span>
-<span>المهام</span>
-<span>الإحالات</span>
-<span>المحفظة</span>
-<span>حسابي</span>
-</nav>
 
 <script>
-const SUPABASE_URL = "https://fcrdywtlezabcbthkmtb.supabase.co";
-const SUPABASE_KEY = "sb_publishable_0Rb6-MTCoKuApgeKRro2ow_mv1MqplC";
-const SEGMA_API = SUPABASE_URL + "/functions/v1/segma-api";
+const SUPABASE_URL =
+  "https://fcrdywtlezabcbthkmtb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_0Rb6-MTCoKuApgeKRro2ow_mv1MqplC";
+
+const SEGMA_API =
+  SUPABASE_URL + "/functions/v1/segma-api";
 
 window.segmaDB = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
-console.log("Segma database client initialized");
-
 const tg = window.Telegram.WebApp;
+
 tg.ready();
 tg.expand();
+
+function showMessage(name) {
+  alert(name + " - سيتم تفعيل القسم قريباً");
+}
 
 async function verifyTelegram() {
   const status = document.getElementById("loginStatus");
   const welcome = document.getElementById("welcome");
 
   if (!tg.initData) {
-    status.textContent = "افتح التطبيق من بوت Segma";
+    status.textContent = "افتح التطبيق من بوت Segma على تيليجرام";
     return;
   }
 
@@ -95,7 +177,9 @@ async function verifyTelegram() {
     const response = await fetch(SEGMA_API, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY
       },
       body: JSON.stringify({
         initData: tg.initData
@@ -106,13 +190,18 @@ async function verifyTelegram() {
 
     if (!response.ok || !result.success) {
       status.textContent = "فشل التحقق من حساب تيليجرام";
+      console.error("Verification error:", result);
       return;
     }
 
-    welcome.textContent = "أهلاً " + (result.user.first_name || "بك");
-    status.textContent = "تم التحقق من حساب تيليجرام بنجاح";
+    welcome.textContent =
+      "أهلاً " + (result.user.first_name || "بك");
+
+    status.textContent =
+      "تم التحقق من حساب تيليجرام بنجاح";
+
   } catch (error) {
-    status.textContent = "تعذر الاتصال بالخادم، حاول مرة أخرى";
+    status.textContent = "تعذر الاتصال بالخادم";
     console.error(error);
   }
 }
