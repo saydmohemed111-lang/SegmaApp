@@ -67,6 +67,7 @@ nav span{font-size:12px;color:#e8c45b}
 <script>
 const SUPABASE_URL = "https://fcrdywtlezabcbthkmtb.supabase.co";
 const SUPABASE_KEY = "sb_publishable_0Rb6-MTCoKuApgeKRro2ow_mv1MqplC";
+const SEGMA_API = SUPABASE_URL + "/functions/v1/segma-api";
 
 window.segmaDB = window.supabase.createClient(
   SUPABASE_URL,
@@ -79,21 +80,44 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-if (tg.initData) {
-  const user = tg.initDataUnsafe.user;
-  if (user) {
-    document.getElementById("welcome").textContent =
-      "أهلاً " + (user.first_name || "بك");
-    document.getElementById("loginStatus").textContent =
-      "تم التعرف على حساب تيليجرام";
-  } else {
-    document.getElementById("loginStatus").textContent =
-      "تم فتح التطبيق من تيليجرام";
+async function verifyTelegram() {
+  const status = document.getElementById("loginStatus");
+  const welcome = document.getElementById("welcome");
+
+  if (!tg.initData) {
+    status.textContent = "افتح التطبيق من بوت Segma";
+    return;
   }
-} else {
-  document.getElementById("loginStatus").textContent =
-    "افتح التطبيق من بوت Segma";
+
+  status.textContent = "جاري التحقق من حسابك...";
+
+  try {
+    const response = await fetch(SEGMA_API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        initData: tg.initData
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      status.textContent = "فشل التحقق من حساب تيليجرام";
+      return;
+    }
+
+    welcome.textContent = "أهلاً " + (result.user.first_name || "بك");
+    status.textContent = "تم التحقق من حساب تيليجرام بنجاح";
+  } catch (error) {
+    status.textContent = "تعذر الاتصال بالخادم، حاول مرة أخرى";
+    console.error(error);
+  }
 }
+
+verifyTelegram();
 </script>
 
 </body>
